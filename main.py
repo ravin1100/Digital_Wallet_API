@@ -1,0 +1,20 @@
+from fastapi import FastAPI
+
+from database import create_table
+from route import user_route, wallet_route
+
+app = FastAPI()
+
+
+@app.on_event("startup")
+def startup_event():
+    create_table()
+
+
+app.include_router(user_route.router)
+app.include_router(wallet_route.router)
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
