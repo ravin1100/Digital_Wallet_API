@@ -32,7 +32,7 @@ def create_transfer(transfer_request: TransferRequest, db):
     # record transaction for sender
     sender_transaction = Transaction(
         user_id=sender.id,
-        recipient_id=recipient.id,
+        recipient_user_id=recipient.id,
         amount=Decimal(transfer_request.amount),
         description=transfer_request.description,
         transaction_type="TRANSFER_OUT",
@@ -44,7 +44,7 @@ def create_transfer(transfer_request: TransferRequest, db):
     # record transaction for receiver
     receiver_transaction = Transaction(
         user_id=recipient.id,
-        recipient_id=sender.id,
+        recipient_user_id=sender.id,
         amount=Decimal(transfer_request.amount),
         description=transfer_request.description,
         transaction_type="TRANSFER_IN",
