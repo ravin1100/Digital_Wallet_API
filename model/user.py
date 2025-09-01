@@ -21,5 +21,8 @@ class User(Base):
     )
 
     transactions = relationship(
-        "Transaction", back_populates="user", cascade="all, delete-orphan"
+        "Transaction",
+        foreign_keys="Transaction.user_id",
+        back_populates="user",
+        cascade="all, delete-orphan",
     )

@@ -19,8 +19,8 @@ def get_transaction_detail(transaction_id: int, db):
         transaction_type=transaction.transaction_type,
         amount=transaction.amount,
         description=transaction.description,
-        # recipient_user_id=transaction.recipient_user_id,
-        # reference_transaction_id=transaction.reference_transaction_id,
+        recipient_user_id=transaction.recipient_user_id,
+        reference_transaction_id=transaction.reference_transaction_id,
         created_at=transaction.created_at,
     )
 
