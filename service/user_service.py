@@ -1,3 +1,4 @@
+from custom_exception import CustomException
 from model.user import User
 from schema.user_schema import UserCreate, UserUpdate
 
@@ -13,7 +14,7 @@ def create_user(user: UserCreate, db):
 def update_user(user: UserUpdate, db):
     db_user = db.query(User).filter(User.id == user.id).first()
     if not db_user:
-        return None
+        raise CustomException(status_code=404, detail="User not found")
     update_data = user.model_dump(exclude_unset=True)
     for key, value in update_data.items():
         setattr(db_user, key, value)

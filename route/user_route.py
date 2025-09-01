@@ -1,6 +1,7 @@
 import http
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
+from custom_exception import CustomException
 from database import get_db
 from schema.user_schema import UserCreate, UserResponse
 from sqlalchemy.orm import Session
@@ -17,7 +18,10 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     try:
         return user_service.create_user(user, db)
     except Exception as e:
-        return {"error": str(e)}
+        print(e)
+        if isinstance(e, CustomException):
+            raise e
+        raise HTTPException(status_code=500, detail="Something went wrong")
 
 
 @router.get("/{user_id}", response_model=UserResponse)
@@ -25,4 +29,7 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
     try:
         return user_service.get_user(user_id, db)
     except Exception as e:
-        return {"error": str(e)}
+        print(e)
+        if isinstance(e, CustomException):
+            raise e
+        raise HTTPException(status_code=500, detail="Something went wrong")
